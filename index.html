@@ -2,30 +2,106 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Scout Find - Kwarran Batulicin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <title>Scout Find | Kwarran Batulicin</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="header">
-    <h1>Scout Find by Kwarran Batulicin</h1>
-    <input type="text" id="searchInput" placeholder="Cari dari list...">
+    <div class="header-inner">
+        <h1 class="logo">Scout Find</h1>
+        <input type="text" id="searchInput" placeholder="Cari artikel...">
+    </div>
 </header>
 
-<div class="container">
+<div class="layout">
+
+    <!-- SIDEBAR -->
     <aside class="sidebar">
-        <ul id="sidebarList"></ul>
+        <nav>
+            <ul id="sidebarList" class="sidebar-list"></ul>
+        </nav>
     </aside>
 
-    <main class="content" id="contentArea">
-        <h2>Memuat...</h2>
+    <!-- CONTENT -->
+    <main class="content">
+
+        <!-- ARTICLE SECTION -->
+        <section id="articleSection">
+            <div class="content-wrapper" id="contentArea">
+                <h2>Memuat...</h2>
+            </div>
+        </section>
+
+        <!-- SCHOOL SECTION -->
+        <section id="schoolSection" class="hidden">
+            <div class="content-wrapper">
+                <h2>DATA POTENSI GUGUSDEPAN 2025 – 2026</h2>
+
+                <form id="schoolForm">
+
+                    <!-- STEP 1 -->
+                    <div class="step">
+                        <h3>A. GUGUSDEPAN PUTRA</h3>
+                        <table class="form-table">
+                            <tr>
+                                <td>Nomor Gudep</td>
+                                <td><input type="text" id="nomorGudepPutra"></td>
+                            </tr>
+                            <tr>
+                                <td>Alamat</td>
+                                <td><input type="text" id="alamatGudepPutra"></td>
+                            </tr>
+                            <tr>
+                                <td>No HP</td>
+                                <td><input type="text" id="noHpPutra"></td>
+                            </tr>
+                            <tr>
+                                <td>Media Sosial</td>
+                                <td><input type="text" id="medsosPutra"></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- STEP 2 -->
+                    <div class="step">
+                        <h3>B. GUGUSDEPAN PUTRI</h3>
+                        <table class="form-table">
+                            <tr>
+                                <td>Nomor Gudep</td>
+                                <td><input type="text" id="nomorGudepPutri"></td>
+                            </tr>
+                            <tr>
+                                <td>Alamat</td>
+                                <td><input type="text" id="alamatGudepPutri"></td>
+                            </tr>
+                            <tr>
+                                <td>No HP</td>
+                                <td><input type="text" id="noHpPutri"></td>
+                            </tr>
+                            <tr>
+                                <td>Media Sosial</td>
+                                <td><input type="text" id="medsosPutri"></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" id="prevBtn">Back</button>
+                        <button type="button" id="nextBtn">Next</button>
+                        <button type="submit" id="submitBtn">Simpan</button>
+                    </div>
+
+                </form>
+            </div>
+        </section>
+
     </main>
 </div>
 
 <footer class="footer">
-    <p>© 2026 Scout Find - Kwarran Batulicin</p>
+    <p>&copy; 2026 Scout Find - Kwarran Batulicin</p>
 </footer>
 
 <script type="module" src="script.js"></script>
