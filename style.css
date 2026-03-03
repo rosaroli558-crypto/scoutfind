@@ -124,4 +124,29 @@ body {
     border-radius: 5px;
 }
 
-.step { display:none; }
+.hidden {
+    display: none;
+}
+
+.form-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.form-table td {
+    padding: 8px;
+}
+
+.form-navigation {
+    margin-top: 20px;
+}
+
+.form-navigation button {
+    padding: 6px 12px;
+    margin-right: 5px;
+}
+
+.step {
+    display: none;
+}
