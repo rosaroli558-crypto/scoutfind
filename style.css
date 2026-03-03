@@ -123,10 +123,5 @@ body {
     border-left: 4px solid #5a3e1b;
     border-radius: 5px;
 }
-.step {
-    display: none;
-}
 
-.step.active {
-    display: block;
-}
+.step { display:none; }
