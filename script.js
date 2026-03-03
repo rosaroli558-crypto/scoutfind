@@ -165,63 +165,193 @@ searchInput.addEventListener("keyup", () => {
 
 function showSchoolPage() {
     contentArea.innerHTML = `
-        <h2>Data Potensi Gugusdepan</h2>
+        <h2>DATA POTENSI GUGUSDEPAN PRIODE 2025 – 2026</h2>
 
         <form id="schoolForm">
 
             <!-- STEP 1 -->
             <div class="step active">
-                <h3>A. Identitas Gugusdepan</h3>
+                <h3>A. GUGUSDEPAN : PUTRA</h3>
                 <table border="1" width="100%" cellpadding="8">
-                    <tr><td>Nama Sekolah</td><td><input type="text" id="namaSekolah"></td></tr>
-                    <tr><td>Alamat</td><td><input type="text" id="alamatSekolah"></td></tr>
-                    <tr><td>NPSN</td><td><input type="text" id="npsn"></td></tr>
-                    <tr><td>Gudep Putra</td><td><input type="text" id="gudepPutra"></td></tr>
-                    <tr><td>Gudep Putri</td><td><input type="text" id="gudepPutri"></td></tr>
+                    <tr><td>NOMOR GUDEP</td><td><input type="text" id="NOMOR GUDEP"></td></tr>
+                    <tr><td>ALAMAT GUDEP</td><td><input type="text" id="ALAMAT GUDEP"></td></tr>
+                    <tr><td>NOMOR TELEPON/HP</td><td><input type="text" id="NOMOR TELEPON/HP"></td></tr>
+                    <tr><td>MEDIA SOSIAL</td><td><input type="text" id="MEDIA SOSIAL"></td></tr>
                 </table>
             </div>
 
-            <!-- STEP 2 -->
             <div class="step">
-                <h3>B. Peserta Didik</h3>
-                <table border="1" width="100%" cellpadding="8">
-                    <tr><th>Golongan</th><th>Putra</th><th>Putri</th></tr>
+                <h3>I. PESERTA DIDIK PUTRA</h3>
+            
+                <table border="1" width="100%" cellpadding="6" 
+                    style="border-collapse:collapse; text-align:center;">
+            
                     <tr>
-                        <td>Siaga</td>
-                        <td><input type="number" id="siagaPutra"></td>
-                        <td><input type="number" id="siagaPutri"></td>
+                        <th rowspan="2">NO</th>
+                        <th rowspan="2">GOLONGAN</th>
+                        <th colspan="4">Syarat Kecakapan Umum</th>
+                        <th rowspan="2">JUMLAH</th>
+                        <th colspan="3">Syarat Kecakapan Khusus</th>
+                        <th rowspan="2">GARUDA</th>
+                        <th rowspan="2">Keterangan</th>
                     </tr>
+            
                     <tr>
-                        <td>Penggalang</td>
-                        <td><input type="number" id="penggalangPutra"></td>
-                        <td><input type="number" id="penggalangPutri"></td>
+                        <th>CALON</th>
+                        <th>MULA</th>
+                        <th>BANTU</th>
+                        <th>TATA</th>
+                        <th>PURWA</th>
+                        <th>MADYA</th>
+                        <th>UTAMA</th>
                     </tr>
+            
                     <tr>
-                        <td>Penegak</td>
-                        <td><input type="number" id="penegakPutra"></td>
-                        <td><input type="number" id="penegakPutri"></td>
+                        <td>1</td>
+                        <td>SIAGA</td>
+                        <td><input type="number" id="siagaCalonPutra"></td>
+                        <td><input type="number" id="siagaMulaPutra"></td>
+                        <td><input type="number" id="siagaBantuPutra"></td>
+                        <td><input type="number" id="siagaTataPutra"></td>
+                        <td><input type="number" id="siagaJumlahPutra"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><input type="number" id="siagaGarudaPutra"></td>
+                        <td><input type="text" id="siagaKetPutra"></td>
                     </tr>
+            
+                    <tr>
+                        <td>2</td>
+                        <td>PENGGALANG</td>
+                        <td><input type="number" id="penggalangCalonPutra"></td>
+                        <td><input type="number" id="penggalangRamuPutra"></td>
+                        <td><input type="number" id="penggalangRakitPutra"></td>
+                        <td><input type="number" id="penggalangTerapPutra"></td>
+                        <td><input type="number" id="penggalangJumlahPutra"></td>
+                        <td><input type="number" id="penggalangPurwaPutra"></td>
+                        <td><input type="number" id="penggalangMadyaPutra"></td>
+                        <td><input type="number" id="penggalangUtamaPutra"></td>
+                        <td><input type="number" id="penggalangGarudaPutra"></td>
+                        <td><input type="text" id="penggalangKetPutra"></td>
+                    </tr>
+            
+                    <tr>
+                        <td>3</td>
+                        <td>PENEGAK</td>
+                        <td><input type="number" id="penegakCalonPutra"></td>
+                        <td><input type="number" id="penegakBantaraPutra"></td>
+                        <td><input type="number" id="penegakLaksanaPutra"></td>
+                        <td></td>
+                        <td><input type="number" id="penegakJumlahPutra"></td>
+                        <td><input type="number" id="penegakPurwaPutra"></td>
+                        <td><input type="number" id="penegakMadyaPutra"></td>
+                        <td><input type="number" id="penegakUtamaPutra"></td>
+                        <td><input type="number" id="penegakGarudaPutra"></td>
+                        <td><input type="text" id="penegakKetPutra"></td>
+                    </tr>
+            
+                    <tr>
+                        <td>4</td>
+                        <td>PANDEGA</td>
+                        <td><input type="number" id="pandegaCalonPutra"></td>
+                        <td><input type="number" id="pandegaPutra"></td>
+                        <td></td>
+                        <td></td>
+                        <td><input type="number" id="pandegaJumlahPutra"></td>
+                        <td><input type="number" id="pandegaPurwaPutra"></td>
+                        <td><input type="number" id="pandegaMadyaPutra"></td>
+                        <td><input type="number" id="pandegaUtamaPutra"></td>
+                        <td><input type="number" id="pandegaGarudaPutra"></td>
+                        <td><input type="text" id="pandegaKetPutra"></td>
+                    </tr>
+            
                 </table>
+            
+                <p style="margin-top:8px; font-size:12px;">
+                    Catatan: Isi sesuai keadaan di Pangkalan/Sekolah
+                </p>
             </div>
 
             <!-- STEP 3 -->
             <div class="step">
-                <h3>C. Pembina</h3>
-                <table border="1" width="100%" cellpadding="8">
-                    <tr><td>Kamabigus</td><td><input type="text" id="kamabigus"></td></tr>
-                    <tr><td>Pembina Putra</td><td><input type="text" id="pembinaPutra"></td></tr>
-                    <tr><td>Pembina Putri</td><td><input type="text" id="pembinaPutri"></td></tr>
-                    <tr><td>Jumlah Pembina</td><td><input type="number" id="jumlahPembina"></td></tr>
+                <h3>II. PEMBINA PUTRA</h3>
+                <p style="font-size:13px;">
+                    (Pembina atau Guru yang berasal dari sekolah bersangkutan)
+                </p>
+            
+                <table border="1" width="100%" cellpadding="6"
+                    style="border-collapse:collapse; text-align:center;">
+            
+                    <tr>
+                        <th rowspan="2">NO</th>
+                        <th rowspan="2">Nama Lengkap</th>
+                        <th rowspan="2">Tempat, tgl Lahir</th>
+                        <th rowspan="2">Tugas Kepramukaan</th>
+                        <th colspan="4">Pendidikan Terakhir</th>
+                    </tr>
+            
+                    <tr>
+                        <th>Pramuka</th>
+                        <th>Tahun</th>
+                        <th>Umum</th>
+                        <th>Tahun</th>
+                    </tr>
+            
+                    ${[1,2,3,4].map(i => `
+                    <tr>
+                        <td>${i}</td>
+                        <td><input type="text" id="pembinaNama${i}"></td>
+                        <td><input type="text" id="pembinaTTL${i}"></td>
+                        <td><input type="text" id="pembinaTugas${i}"></td>
+                        <td><input type="text" id="pembinaPramuka${i}"></td>
+                        <td><input type="number" id="pembinaPramukaTahun${i}"></td>
+                        <td><input type="text" id="pembinaUmum${i}"></td>
+                        <td><input type="number" id="pembinaUmumTahun${i}"></td>
+                    </tr>
+                    `).join("")}
+            
                 </table>
             </div>
 
             <!-- STEP 4 -->
             <div class="step">
-                <h3>D. Sarana & Prasarana</h3>
-                <table border="1" width="100%" cellpadding="8">
-                    <tr><td>Ruang Sekretariat</td><td><input type="text" id="ruangSekretariat"></td></tr>
-                    <tr><td>Perlengkapan</td><td><input type="text" id="perlengkapan"></td></tr>
-                    <tr><td>Lapangan</td><td><input type="text" id="lapangan"></td></tr>
+                <h3>III. PEMBANTU PEMBINA PUTRA (INSTRUKTUR)</h3>
+                <p style="font-size:13px;">
+                    (Pembina atau Pembantu Pembina dari luar Sekolah/Gudep)
+                </p>
+            
+                <table border="1" width="100%" cellpadding="6"
+                    style="border-collapse:collapse; text-align:center;">
+            
+                    <tr>
+                        <th rowspan="2">NO</th>
+                        <th rowspan="2">Nama Lengkap</th>
+                        <th rowspan="2">Tempat, tgl Lahir</th>
+                        <th rowspan="2">Tugas Kepramukaan</th>
+                        <th colspan="4">Pendidikan Terakhir</th>
+                    </tr>
+            
+                    <tr>
+                        <th>Pramuka</th>
+                        <th>Tahun</th>
+                        <th>Umum</th>
+                        <th>Tahun</th>
+                    </tr>
+            
+                    ${[1,2].map(i => `
+                    <tr>
+                        <td>${i}</td>
+                        <td><input type="text" id="instrukturNama${i}"></td>
+                        <td><input type="text" id="instrukturTTL${i}"></td>
+                        <td><input type="text" id="instrukturTugas${i}"></td>
+                        <td><input type="text" id="instrukturPramuka${i}"></td>
+                        <td><input type="number" id="instrukturPramukaTahun${i}"></td>
+                        <td><input type="text" id="instrukturUmum${i}"></td>
+                        <td><input type="number" id="instrukturUmumTahun${i}"></td>
+                    </tr>
+                    `).join("")}
+            
                 </table>
             </div>
 
