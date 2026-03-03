@@ -178,6 +178,7 @@ function initMultiStep() {
     const nextBtn = document.getElementById("nextBtn");
     const prevBtn = document.getElementById("prevBtn");
     const submitBtn = document.getElementById("submitBtn");
+    const form = document.getElementById("schoolForm");
 
     function showStep(index) {
         steps.forEach(step => step.style.display = "none");
@@ -202,50 +203,7 @@ function initMultiStep() {
         }
     };
 
-    showStep(currentStep);
-}
-
-initMultiStep();
-function initMultiStep() {
-    let currentStep = 0;
-    const steps = document.querySelectorAll(".step");
-    const nextBtn = document.getElementById("nextBtn");
-    const prevBtn = document.getElementById("prevBtn");
-    const submitBtn = document.getElementById("submitBtn");
-
-    function showStep(index) {
-        steps.forEach(step => step.style.display = "none");
-        steps[index].style.display = "block";
-
-        prevBtn.style.display = index === 0 ? "none" : "inline-block";
-        nextBtn.style.display = index === steps.length - 1 ? "none" : "inline-block";
-        submitBtn.style.display = index === steps.length - 1 ? "inline-block" : "none";
-    }
-
-    nextBtn.onclick = () => {
-        if (currentStep < steps.length - 1) {
-            currentStep++;
-            showStep(currentStep);
-        }
-    };
-
-    prevBtn.onclick = () => {
-        if (currentStep > 0) {
-            currentStep--;
-            showStep(currentStep);
-        }
-    };
-
-    document.getElementById("schoolForm").onsubmit = function(e) {
-        e.preventDefault();
-        saveSchoolFull();
-    };
-
-    showStep(currentStep);
-}
-
-document.getElementById("schoolForm")
-    .addEventListener("submit", function(e) {
+    form.onsubmit = function(e) {
         e.preventDefault();
 
         const data = {
@@ -268,7 +226,12 @@ document.getElementById("schoolForm")
         set(ref(db, "potensiGudep/" + key), data);
 
         alert("Data berhasil disimpan.");
-        this.reset();
-    });
+        form.reset();
+        currentStep = 0;
+        showStep(currentStep);
+    };
+
+    showStep(currentStep);
+}
 // ================= INIT =================
 renderSidebar();
