@@ -165,6 +165,10 @@ searchInput.addEventListener("keyup", () => {
 function showSchoolPage() {
     document.getElementById("articleSection").classList.add("hidden");
     document.getElementById("schoolSection").classList.remove("hidden");
+
+    setTimeout(() => {
+        initMultiStep();
+    }, 0);
 }
 
 function showArticlePage() {
@@ -232,6 +236,9 @@ function initMultiStep() {
     };
 
     showStep(currentStep);
+    console.log("Multi step jalan");
 }
+
 // ================= INIT =================
+
 renderSidebar();
