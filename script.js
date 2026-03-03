@@ -150,6 +150,96 @@ searchInput.addEventListener("keyup", () => {
         });
     });
 });
+// ================= DATA POTENSI SEKOLAH =================
 
+function showSchoolPage() {
+    contentArea.innerHTML = `
+        <h2>Data Potensi Sekolah</h2>
+
+        <input type="text" id="searchSchool" placeholder="Cari sekolah..." />
+        <div id="schoolList"></div>
+
+        <hr><br>
+
+        <h3>Tambah Sekolah</h3>
+        <input type="text" id="namaSekolah" placeholder="Nama Sekolah"><br><br>
+        <input type="text" id="gudepSekolah" placeholder="Gudep"><br><br>
+        <input type="text" id="pembinaSekolah" placeholder="Pembina"><br><br>
+        <input type="number" id="anggotaSekolah" placeholder="Jumlah Anggota"><br><br>
+        <button id="tambahSekolah">Simpan</button>
+    `;
+
+    document
+        .getElementById("searchSchool")
+        .addEventListener("keyup", loadSchools);
+
+    document
+        .getElementById("tambahSekolah")
+        .addEventListener("click", addSchool);
+
+    loadSchools();
+}
+
+// ===== LOAD SEKOLAH =====
+function loadSchools() {
+    const keyword = document
+        .getElementById("searchSchool")
+        .value.toLowerCase();
+
+    const list = document.getElementById("schoolList");
+    list.innerHTML = "";
+
+    onValue(ref(db, "schools"), snapshot => {
+        list.innerHTML = "";
+
+        snapshot.forEach(child => {
+            const data = child.val();
+
+            if (data.nama.toLowerCase().includes(keyword)) {
+                list.innerHTML += `
+                    <div class="school-card">
+                        <h3>${data.nama}</h3>
+                        <p>Gudep: ${data.gudep}</p>
+                        <p>Pembina: ${data.pembina}</p>
+                        <p>Anggota: ${data.anggota}</p>
+                    </div>
+                `;
+            }
+        });
+    }, { onlyOnce: true });
+}
+
+// ===== TAMBAH SEKOLAH =====
+function addSchool() {
+    const nama = document.getElementById("namaSekolah").value;
+    const gudep = document.getElementById("gudepSekolah").value;
+    const pembina = document.getElementById("pembinaSekolah").value;
+    const anggota = document.getElementById("anggotaSekolah").value;
+
+    if (!nama) return;
+
+    const key = nama.toLowerCase().replace(/\s/g, "");
+
+    set(ref(db, "schools/" + key), {
+        nama,
+        gudep,
+        pembina,
+        anggota
+    });
+
+    document.getElementById("namaSekolah").value = "";
+    document.getElementById("gudepSekolah").value = "";
+    document.getElementById("pembinaSekolah").value = "";
+    document.getElementById("anggotaSekolah").value = "";
+
+    loadSchools();
+}
 // ================= INIT =================
+const li = document.createElement("li");
+const link = document.createElement("a");
+link.href = "#";
+link.textContent = "Data Potensi Sekolah";
+link.addEventListener("click", showSchoolPage);
+li.appendChild(link);
+sidebarList.appendChild(li);
 renderSidebar();
