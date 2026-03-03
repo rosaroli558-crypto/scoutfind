@@ -1,4 +1,3 @@
-// ===== IMPORT FIREBASE =====
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
     getDatabase,
@@ -9,7 +8,7 @@ import {
     onValue
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-// ===== CONFIG FIREBASE (GANTI DENGAN PUNYAMU) =====
+// ================= CONFIG =================
 const firebaseConfig = {
   apiKey: "AIzaSyA8MVIG6U7LBKTTKaGsAvgI1aMy_Oxstto",
   authDomain: "scout-find-kwarran-batulicin.firebaseapp.com",
@@ -23,104 +22,134 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// ===== LOAD SIDEBAR =====
+// ================= ELEMENT =================
+const sidebarList = document.getElementById("sidebarList");
+const contentArea = document.getElementById("contentArea");
+const searchInput = document.getElementById("searchInput");
+
+// ================= SIDEBAR =================
 function renderSidebar() {
-    const sidebar = document.querySelector(".sidebar ul");
     onValue(ref(db, "articles"), snapshot => {
-        sidebar.innerHTML = "";
+        sidebarList.innerHTML = "";
 
         snapshot.forEach(child => {
             const data = child.val();
-            sidebar.innerHTML += `
-                <li>
-                    <a href="#" onclick="loadArticle('${child.key}')">
-                        ${data.title}
-                    </a>
-                </li>
-            `;
+            const li = document.createElement("li");
+            const link = document.createElement("a");
+
+            link.href = "#";
+            link.textContent = data.title;
+            link.addEventListener("click", () => loadArticle(child.key));
+
+            li.appendChild(link);
+            sidebarList.appendChild(li);
         });
 
-        sidebar.innerHTML += `
-            <li><hr></li>
-            <li><a href="#" onclick="showAddForm()">+ Tambah Artikel</a></li>
-        `;
+        addAddButton();
     });
 }
 
-// ===== LOAD ARTIKEL =====
-window.loadArticle = function(key) {
-    const contentArea = document.querySelector(".content");
+function addAddButton() {
+    const hr = document.createElement("hr");
+    const li = document.createElement("li");
+    const link = document.createElement("a");
 
-    get(ref(db, "articles/" + key)).then(snapshot => {
-        if (snapshot.exists()) {
-            const data = snapshot.val();
-            contentArea.innerHTML = `
-                <h2>${data.title}</h2>
-                ${data.content}
-                <br><br>
-                <button onclick="editArticle('${key}')">Edit</button>
-                <button onclick="deleteArticle('${key}')">Hapus</button>
-            `;
-        } else {
+    link.href = "#";
+    link.textContent = "+ Tambah Artikel";
+    link.addEventListener("click", showAddForm);
+
+    li.appendChild(link);
+    sidebarList.appendChild(hr);
+    sidebarList.appendChild(li);
+}
+
+// ================= LOAD ARTIKEL =================
+function loadArticle(key) {
+    get(ref(db, `articles/${key}`)).then(snapshot => {
+        if (!snapshot.exists()) {
             contentArea.innerHTML = "<h2>Artikel tidak ditemukan</h2>";
+            return;
         }
-    });
-};
 
-// ===== TAMBAH FORM =====
-window.showAddForm = function() {
-    document.querySelector(".content").innerHTML = `
+        const data = snapshot.val();
+
+        contentArea.innerHTML = `
+            <h2>${data.title}</h2>
+            ${data.content}
+            <br><br>
+            <button id="editBtn">Edit</button>
+            <button id="deleteBtn">Hapus</button>
+        `;
+
+        document.getElementById("editBtn")
+            .addEventListener("click", () => showEditForm(key, data));
+
+        document.getElementById("deleteBtn")
+            .addEventListener("click", () => deleteArticle(key));
+    });
+}
+
+// ================= TAMBAH =================
+function showAddForm() {
+    contentArea.innerHTML = `
         <h2>Tambah Artikel</h2>
         <input type="text" id="newTitle" placeholder="Judul"><br><br>
         <textarea id="newContent" rows="8" placeholder="Isi artikel"></textarea><br><br>
-        <button onclick="addArticle()">Simpan</button>
+        <button id="saveBtn">Simpan</button>
     `;
-};
 
-// ===== TAMBAH ARTIKEL =====
-window.addArticle = function() {
+    document.getElementById("saveBtn")
+        .addEventListener("click", addArticle);
+}
+
+function addArticle() {
     const title = document.getElementById("newTitle").value;
     const content = document.getElementById("newContent").value;
     const key = title.toLowerCase().replace(/\s/g, "");
 
-    set(ref(db, "articles/" + key), {
-        title: title,
-        content: content
-    });
-};
+    set(ref(db, `articles/${key}`), { title, content });
+}
 
-// ===== EDIT =====
-window.editArticle = function(key) {
-    get(ref(db, "articles/" + key)).then(snapshot => {
-        const data = snapshot.val();
-        document.querySelector(".content").innerHTML = `
-            <h2>Edit Artikel</h2>
-            <input type="text" id="editTitle" value="${data.title}"><br><br>
-            <textarea id="editContent" rows="8">${data.content}</textarea><br><br>
-            <button onclick="updateArticle('${key}')">Update</button>
-        `;
-    });
-};
+// ================= EDIT =================
+function showEditForm(key, data) {
+    contentArea.innerHTML = `
+        <h2>Edit Artikel</h2>
+        <input type="text" id="editTitle" value="${data.title}"><br><br>
+        <textarea id="editContent" rows="8">${data.content}</textarea><br><br>
+        <button id="updateBtn">Update</button>
+    `;
 
-window.updateArticle = function(key) {
+    document.getElementById("updateBtn")
+        .addEventListener("click", () => updateArticle(key));
+}
+
+function updateArticle(key) {
     const title = document.getElementById("editTitle").value;
     const content = document.getElementById("editContent").value;
 
-    set(ref(db, "articles/" + key), {
-        title: title,
-        content: content
-    });
-};
+    set(ref(db, `articles/${key}`), { title, content });
+}
 
-// ===== HAPUS =====
-window.deleteArticle = function(key) {
+// ================= DELETE =================
+function deleteArticle(key) {
     if (confirm("Yakin hapus artikel?")) {
-        remove(ref(db, "articles/" + key));
-        document.querySelector(".content").innerHTML = "<h2>Artikel dihapus</h2>";
+        remove(ref(db, `articles/${key}`));
+        contentArea.innerHTML = "<h2>Artikel dihapus</h2>";
     }
-};
+}
 
-// ===== INIT =====
-window.onload = function() {
-    renderSidebar();
-};
+// ================= SEARCH =================
+searchInput.addEventListener("keyup", () => {
+    const keyword = searchInput.value.toLowerCase();
+
+    get(ref(db, "articles")).then(snapshot => {
+        snapshot.forEach(child => {
+            if (child.val().title.toLowerCase().includes(keyword)) {
+                loadArticle(child.key);
+            }
+        });
+    });
+});
+
+// ================= INIT =================
+renderSidebar();
