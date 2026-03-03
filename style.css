@@ -116,3 +116,10 @@ body {
         margin-left: 0;
     }
 }
+.school-card {
+    background: white;
+    padding: 12px;
+    margin-top: 10px;
+    border-left: 4px solid #5a3e1b;
+    border-radius: 5px;
+}
