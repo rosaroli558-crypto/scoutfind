@@ -35,11 +35,16 @@ body {
     outline: none;
 }
 
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
 /* CONTAINER */
 .container {
-    display: flex;
-    max-width: 1200px;
-    margin: 20px auto;
+    flex-direction: column;
 }
 
 /* SIDEBAR */
@@ -149,4 +154,16 @@ body {
 
 .step {
     display: none;
+}
+
+button {
+    background-color: #5a3e1b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #8b5e34;
 }
