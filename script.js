@@ -161,52 +161,91 @@ searchInput.addEventListener("keyup", () => {
         });
     });
 });
-// ================= DATA POTENSI SEKOLAH (MULTI STEP) =================
+// ================= DATA POTENSI SEKOLAH (STEP = 1 TABEL) =================
 
 function showSchoolPage() {
     contentArea.innerHTML = `
-        <h2>Data Potensi Sekolah</h2>
-
-        <input type="text" id="searchSchool" placeholder="Cari sekolah..." />
-        <div id="schoolList"></div>
-
-        <hr><br>
-
-        <h3>Tambah / Edit Sekolah</h3>
+        <h2>Data Potensi Gugusdepan</h2>
 
         <form id="schoolForm">
 
+            <!-- STEP 1 -->
             <div class="step active">
-                <h4>Identitas</h4>
-                <input type="text" id="namaSekolah" placeholder="Nama Sekolah"><br><br>
-                <input type="text" id="gudepSekolah" placeholder="Gudep"><br><br>
+                <h3>A. Identitas Gugusdepan</h3>
+                <table border="1" width="100%" cellpadding="8">
+                    <tr><td>Nama Sekolah</td><td><input type="text" id="namaSekolah"></td></tr>
+                    <tr><td>Alamat</td><td><input type="text" id="alamatSekolah"></td></tr>
+                    <tr><td>NPSN</td><td><input type="text" id="npsn"></td></tr>
+                    <tr><td>Gudep Putra</td><td><input type="text" id="gudepPutra"></td></tr>
+                    <tr><td>Gudep Putri</td><td><input type="text" id="gudepPutri"></td></tr>
+                </table>
             </div>
 
+            <!-- STEP 2 -->
             <div class="step">
-                <h4>Pembina</h4>
-                <input type="text" id="pembinaSekolah" placeholder="Nama Pembina"><br><br>
+                <h3>B. Peserta Didik</h3>
+                <table border="1" width="100%" cellpadding="8">
+                    <tr><th>Golongan</th><th>Putra</th><th>Putri</th></tr>
+                    <tr>
+                        <td>Siaga</td>
+                        <td><input type="number" id="siagaPutra"></td>
+                        <td><input type="number" id="siagaPutri"></td>
+                    </tr>
+                    <tr>
+                        <td>Penggalang</td>
+                        <td><input type="number" id="penggalangPutra"></td>
+                        <td><input type="number" id="penggalangPutri"></td>
+                    </tr>
+                    <tr>
+                        <td>Penegak</td>
+                        <td><input type="number" id="penegakPutra"></td>
+                        <td><input type="number" id="penegakPutri"></td>
+                    </tr>
+                </table>
             </div>
 
+            <!-- STEP 3 -->
             <div class="step">
-                <h4>Keanggotaan</h4>
-                <input type="number" id="anggotaSekolah" placeholder="Jumlah Anggota"><br><br>
+                <h3>C. Pembina</h3>
+                <table border="1" width="100%" cellpadding="8">
+                    <tr><td>Kamabigus</td><td><input type="text" id="kamabigus"></td></tr>
+                    <tr><td>Pembina Putra</td><td><input type="text" id="pembinaPutra"></td></tr>
+                    <tr><td>Pembina Putri</td><td><input type="text" id="pembinaPutri"></td></tr>
+                    <tr><td>Jumlah Pembina</td><td><input type="number" id="jumlahPembina"></td></tr>
+                </table>
             </div>
 
-            <div style="margin-top:15px;">
-                <button type="button" id="prevBtn">Back</button>
-                <button type="button" id="nextBtn">Next</button>
-                <button type="submit" id="submitBtn" style="display:none;">Simpan</button>
+            <!-- STEP 4 -->
+            <div class="step">
+                <h3>D. Sarana & Prasarana</h3>
+                <table border="1" width="100%" cellpadding="8">
+                    <tr><td>Ruang Sekretariat</td><td><input type="text" id="ruangSekretariat"></td></tr>
+                    <tr><td>Perlengkapan</td><td><input type="text" id="perlengkapan"></td></tr>
+                    <tr><td>Lapangan</td><td><input type="text" id="lapangan"></td></tr>
+                </table>
             </div>
+
+            <!-- STEP 5 -->
+            <div class="step">
+                <h3>E. Prestasi</h3>
+                <table border="1" width="100%" cellpadding="8">
+                    <tr>
+                        <td>Prestasi</td>
+                        <td><textarea id="prestasi" rows="5" style="width:100%;"></textarea></td>
+                    </tr>
+                </table>
+            </div>
+
+            <br>
+
+            <button type="button" id="prevBtn">Back</button>
+            <button type="button" id="nextBtn">Next</button>
+            <button type="submit" id="submitBtn" style="display:none;">Simpan</button>
 
         </form>
     `;
 
-    document
-        .getElementById("searchSchool")
-        .addEventListener("keyup", loadSchools);
-
     initMultiStep();
-    loadSchools();
 }
 
 function initMultiStep() {
@@ -217,85 +256,65 @@ function initMultiStep() {
     const submitBtn = document.getElementById("submitBtn");
 
     function showStep(index) {
-        steps.forEach(step => step.classList.remove("active"));
-        steps[index].classList.add("active");
+        steps.forEach(step => step.style.display = "none");
+        steps[index].style.display = "block";
 
         prevBtn.style.display = index === 0 ? "none" : "inline-block";
         nextBtn.style.display = index === steps.length - 1 ? "none" : "inline-block";
         submitBtn.style.display = index === steps.length - 1 ? "inline-block" : "none";
     }
 
-    nextBtn.addEventListener("click", () => {
+    nextBtn.onclick = () => {
         if (currentStep < steps.length - 1) {
             currentStep++;
             showStep(currentStep);
         }
-    });
+    };
 
-    prevBtn.addEventListener("click", () => {
+    prevBtn.onclick = () => {
         if (currentStep > 0) {
             currentStep--;
             showStep(currentStep);
         }
-    });
+    };
 
-    document
-        .getElementById("schoolForm")
-        .addEventListener("submit", function(e) {
-            e.preventDefault();
-            saveSchool();
-        });
+    document.getElementById("schoolForm").onsubmit = function(e) {
+        e.preventDefault();
+        saveSchoolFull();
+    };
 
     showStep(currentStep);
 }
 
-// ===== LOAD SEKOLAH =====
-function loadSchools() {
-    const keyword = document
-        .getElementById("searchSchool")
-        .value.toLowerCase();
+function saveSchoolFull() {
 
-    const list = document.getElementById("schoolList");
-    list.innerHTML = "";
+    const data = {
+        nama: namaSekolah.value,
+        alamat: alamatSekolah.value,
+        npsn: npsn.value,
+        gudepPutra: gudepPutra.value,
+        gudepPutri: gudepPutri.value,
+        siagaPutra: siagaPutra.value,
+        siagaPutri: siagaPutri.value,
+        penggalangPutra: penggalangPutra.value,
+        penggalangPutri: penggalangPutri.value,
+        penegakPutra: penegakPutra.value,
+        penegakPutri: penegakPutri.value,
+        kamabigus: kamabigus.value,
+        pembinaPutra: pembinaPutra.value,
+        pembinaPutri: pembinaPutri.value,
+        jumlahPembina: jumlahPembina.value,
+        ruangSekretariat: ruangSekretariat.value,
+        perlengkapan: perlengkapan.value,
+        lapangan: lapangan.value,
+        prestasi: prestasi.value
+    };
 
-    get(ref(db, "schools")).then(snapshot => {
-        snapshot.forEach(child => {
-            const data = child.val();
+    const key = data.nama.toLowerCase().replace(/\s/g, "");
 
-            if (data.nama.toLowerCase().includes(keyword)) {
-                list.innerHTML += `
-                    <div class="school-card">
-                        <h3>${data.nama}</h3>
-                        <p>Gudep: ${data.gudep}</p>
-                        <p>Pembina: ${data.pembina}</p>
-                        <p>Anggota: ${data.anggota}</p>
-                    </div>
-                `;
-            }
-        });
-    });
-}
+    set(ref(db, "schools/" + key), data);
 
-// ===== SIMPAN SEKOLAH =====
-function saveSchool() {
-    const nama = document.getElementById("namaSekolah").value;
-    const gudep = document.getElementById("gudepSekolah").value;
-    const pembina = document.getElementById("pembinaSekolah").value;
-    const anggota = document.getElementById("anggotaSekolah").value;
-
-    if (!nama) return;
-
-    const key = nama.toLowerCase().replace(/\s/g, "");
-
-    set(ref(db, "schools/" + key), {
-        nama,
-        gudep,
-        pembina,
-        anggota
-    });
-
-    document.getElementById("schoolForm").reset();
-    loadSchools();
+    alert("Data berhasil disimpan.");
 }
 // ================= INIT =================
 renderSidebar();
