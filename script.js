@@ -161,7 +161,7 @@ searchInput.addEventListener("keyup", () => {
         });
     });
 });
-// ================= DATA POTENSI SEKOLAH =================
+// ================= DATA POTENSI SEKOLAH (MULTI STEP) =================
 
 function showSchoolPage() {
     contentArea.innerHTML = `
@@ -172,23 +172,81 @@ function showSchoolPage() {
 
         <hr><br>
 
-        <h3>Tambah Sekolah</h3>
-        <input type="text" id="namaSekolah" placeholder="Nama Sekolah"><br><br>
-        <input type="text" id="gudepSekolah" placeholder="Gudep"><br><br>
-        <input type="text" id="pembinaSekolah" placeholder="Pembina"><br><br>
-        <input type="number" id="anggotaSekolah" placeholder="Jumlah Anggota"><br><br>
-        <button id="tambahSekolah">Simpan</button>
+        <h3>Tambah / Edit Sekolah</h3>
+
+        <form id="schoolForm">
+
+            <div class="step active">
+                <h4>Identitas</h4>
+                <input type="text" id="namaSekolah" placeholder="Nama Sekolah"><br><br>
+                <input type="text" id="gudepSekolah" placeholder="Gudep"><br><br>
+            </div>
+
+            <div class="step">
+                <h4>Pembina</h4>
+                <input type="text" id="pembinaSekolah" placeholder="Nama Pembina"><br><br>
+            </div>
+
+            <div class="step">
+                <h4>Keanggotaan</h4>
+                <input type="number" id="anggotaSekolah" placeholder="Jumlah Anggota"><br><br>
+            </div>
+
+            <div style="margin-top:15px;">
+                <button type="button" id="prevBtn">Back</button>
+                <button type="button" id="nextBtn">Next</button>
+                <button type="submit" id="submitBtn" style="display:none;">Simpan</button>
+            </div>
+
+        </form>
     `;
 
     document
         .getElementById("searchSchool")
         .addEventListener("keyup", loadSchools);
 
-    document
-        .getElementById("tambahSekolah")
-        .addEventListener("click", addSchool);
-
+    initMultiStep();
     loadSchools();
+}
+
+function initMultiStep() {
+    let currentStep = 0;
+    const steps = document.querySelectorAll(".step");
+    const nextBtn = document.getElementById("nextBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    const submitBtn = document.getElementById("submitBtn");
+
+    function showStep(index) {
+        steps.forEach(step => step.classList.remove("active"));
+        steps[index].classList.add("active");
+
+        prevBtn.style.display = index === 0 ? "none" : "inline-block";
+        nextBtn.style.display = index === steps.length - 1 ? "none" : "inline-block";
+        submitBtn.style.display = index === steps.length - 1 ? "inline-block" : "none";
+    }
+
+    nextBtn.addEventListener("click", () => {
+        if (currentStep < steps.length - 1) {
+            currentStep++;
+            showStep(currentStep);
+        }
+    });
+
+    prevBtn.addEventListener("click", () => {
+        if (currentStep > 0) {
+            currentStep--;
+            showStep(currentStep);
+        }
+    });
+
+    document
+        .getElementById("schoolForm")
+        .addEventListener("submit", function(e) {
+            e.preventDefault();
+            saveSchool();
+        });
+
+    showStep(currentStep);
 }
 
 // ===== LOAD SEKOLAH =====
@@ -200,9 +258,7 @@ function loadSchools() {
     const list = document.getElementById("schoolList");
     list.innerHTML = "";
 
-    onValue(ref(db, "schools"), snapshot => {
-        list.innerHTML = "";
-
+    get(ref(db, "schools")).then(snapshot => {
         snapshot.forEach(child => {
             const data = child.val();
 
@@ -217,11 +273,11 @@ function loadSchools() {
                 `;
             }
         });
-    }, { onlyOnce: true });
+    });
 }
 
-// ===== TAMBAH SEKOLAH =====
-function addSchool() {
+// ===== SIMPAN SEKOLAH =====
+function saveSchool() {
     const nama = document.getElementById("namaSekolah").value;
     const gudep = document.getElementById("gudepSekolah").value;
     const pembina = document.getElementById("pembinaSekolah").value;
@@ -238,11 +294,7 @@ function addSchool() {
         anggota
     });
 
-    document.getElementById("namaSekolah").value = "";
-    document.getElementById("gudepSekolah").value = "";
-    document.getElementById("pembinaSekolah").value = "";
-    document.getElementById("anggotaSekolah").value = "";
-
+    document.getElementById("schoolForm").reset();
     loadSchools();
 }
 // ================= INIT =================
