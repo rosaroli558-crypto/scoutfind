@@ -29,11 +29,12 @@ const searchInput = document.getElementById("searchInput");
 
 // ================= SIDEBAR =================
 function renderSidebar() {
-    onValue(ref(db, "articles"), snapshot => {
-        sidebarList.innerHTML = "";
+    sidebarList.innerHTML = "";
 
+    get(ref(db, "articles")).then(snapshot => {
         snapshot.forEach(child => {
             const data = child.val();
+
             const li = document.createElement("li");
             const link = document.createElement("a");
 
@@ -45,7 +46,17 @@ function renderSidebar() {
             sidebarList.appendChild(li);
         });
 
-        addAddButton();
+        // Tambah menu Data Sekolah
+        const liSchool = document.createElement("li");
+        const linkSchool = document.createElement("a");
+
+        linkSchool.href = "#";
+        linkSchool.textContent = "Data Potensi Sekolah";
+        linkSchool.addEventListener("click", showSchoolPage);
+
+        liSchool.appendChild(linkSchool);
+        sidebarList.appendChild(document.createElement("hr"));
+        sidebarList.appendChild(liSchool);
     });
 }
 
@@ -235,11 +246,4 @@ function addSchool() {
     loadSchools();
 }
 // ================= INIT =================
-const li = document.createElement("li");
-const link = document.createElement("a");
-link.href = "#";
-link.textContent = "Data Potensi Sekolah";
-link.addEventListener("click", showSchoolPage);
-li.appendChild(link);
-sidebarList.appendChild(li);
 renderSidebar();
