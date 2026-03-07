@@ -161,6 +161,8 @@ searchInput.addEventListener("keyup", () => {
         });
     });
 });
+
+let editKey = null;
 // ================= VIEW SWITCH =================
 function showSchoolPage() {
     document.getElementById("articleSection").classList.add("hidden");
@@ -226,8 +228,53 @@ function initMultiStep() {
             createdAt: Date.now()
         };
 
+        if(editKey){
+
+        set(ref(db,"potensiGudep/"+editKey),data);
+        
+        alert("Data berhasil diperbarui");
+        
+        editKey = null;
+        
+        }else{
+        
         const key = "gudep_" + Date.now();
-        set(ref(db, "potensiGudep/" + key), data);
+        
+        set(ref(db,"potensiGudep/"+key),data);
+        
+        alert("Data berhasil disimpan");
+        
+        }
+
+        const schoolList = document.getElementById("schoolList");
+
+        onValue(ref(db,"potensiGudep"),(snapshot)=>{
+        
+        schoolList.innerHTML="";
+        
+        snapshot.forEach(child=>{
+        
+        const data = child.val();
+        const key = child.key;
+        
+        const div = document.createElement("div");
+        
+        div.className="school-card";
+        
+        div.innerHTML = `
+        
+        <b>Gudep Putra:</b> ${data.putra.nomor}<br>
+        <b>Gudep Putri:</b> ${data.putri.nomor}<br>
+        
+        <button onclick="editSchool('${key}')">Edit</button>
+        
+        `;
+        
+        schoolList.appendChild(div);
+        
+        });
+        
+        });
 
         alert("Data berhasil disimpan.");
         form.reset();
@@ -239,6 +286,29 @@ function initMultiStep() {
     console.log("Multi step jalan");
 }
 
+window.editSchool = function(key){
+
+get(ref(db,"potensiGudep/"+key)).then(snapshot=>{
+
+const data = snapshot.val();
+
+editKey = key;
+
+nomorGudepPutra.value = data.putra.nomor;
+alamatGudepPutra.value = data.putra.alamat;
+noHpPutra.value = data.putra.hp;
+medsosPutra.value = data.putra.medsos;
+
+nomorGudepPutri.value = data.putri.nomor;
+alamatGudepPutri.value = data.putri.alamat;
+noHpPutri.value = data.putri.hp;
+medsosPutri.value = data.putri.medsos;
+
+window.scrollTo(0,0);
+
+});
+
+}
 // ================= INIT =================
 
 renderSidebar();
